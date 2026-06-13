@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator - Production Mirror</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --bg-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #22c55e;
+            --glow: rgba(34, 197, 94, 0.2);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Upgraded Main Container */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #4CAF50, #4ade80);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="date"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--glow);
+        }
+
+        button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        button:hover {
+            opacity: 0.95;
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* Refined Result Display Layout */
+        .result {
+            margin-top: 30px;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-left: 4px solid var(--accent);
+            border-radius: 10px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            display: none;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result p {
+            margin: 6px 0;
+            color: #e2e8f0;
+            font-size: 15px;
+        }
+
+        .highlight {
+            font-weight: 800;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        /* Premium Branded Footer */
+        footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            border-top: 1px solid var(--card-border);
+            padding-top: 15px;
+        }
+
+        footer strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="glass-card">
+    <h2>Age & Days Calculator</h2>
+    <div class="subtitle">Thank You For Visiting</div>
+    
+    <div class="input-group">
+        <label for="birthdate">Select your Date of Birth</label>
+        <input type="date" id="birthdate" required>
+    </div>
+    
+    <button onclick="calculateAge()">Calculate Age Metrics</button>
+
+    <div class="result" id="resultBox">
+        <p style="color: var(--text-muted); font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">Your Exact Age</p>
+        <p id="exactAge">Loading...</p>
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 15px 0;">
+        <p style="color: var(--text-muted); font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">Total Time Alive</p>
+        <p id="totalDays">Loading...</p>
+    </div>
+
+    <footer>
+        WELCOME! To My Website <br>
+        This website is Designed By <strong>Deepankar Mishra</strong> <br>
+        Thanks me later!
+    </footer>
+</div>
+
+<script>
+    function calculateAge() {
+        const birthdateInput = document.getElementById('birthdate').value;
+        if (!birthdateInput) {
+            alert("Please select a valid date!");
+            return;
+        }
+
+        const birthDate = new Date(birthdateInput);
+        const today = new Date();
+
+        birthDate.setHours(0,0,0,0);
+        today.setHours(0,0,0,0);
+
+        if (birthDate > today) {
+            alert("The birthdate cannot be in the future!");
+            return;
+        }
+
+        const timeDifference = today.getTime() - birthDate.getTime();
+        const totalDaysAlive = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        let days = today.getDate() - birthDate.getDate();
+
+        if (days < 0) {
+            months--;
+            const previousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+            days += previousMonth.getDate();
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        document.getElementById('exactAge').innerHTML = 
+            `<span class="highlight">${years}</span> years, ` + 
+            `<span class="highlight">${months}</span> months, and ` + 
+            `<span class="highlight">${days}</span> days`;
+            
+        document.getElementById('totalDays').innerHTML = 
+            `You have been alive for <span class="highlight">${totalDaysAlive.toLocaleString()}</span> total days!`;
+
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
